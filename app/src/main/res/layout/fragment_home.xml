@@ -52,6 +52,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/breakfast_1" />
 
                     <TextView
@@ -84,6 +85,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/lunch_1" />
 
                     <TextView
@@ -128,6 +130,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/dinner_1" />
 
                     <TextView
@@ -135,6 +138,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/dinner"
+
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -160,6 +164,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/snacks_1" />
 
                     <TextView

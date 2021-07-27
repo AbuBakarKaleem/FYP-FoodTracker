@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/home_background"
     tools:context=".ui.addFood.AddFoodRecordFragment">
 
     <TextView
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/teal_200"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -22,29 +23,33 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:weightSum="2"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/iv_selectDate"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_baseline_calendar_today_24" />
 
         <TextView
             android:id="@+id/tv_selectDate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:gravity="center"
+            android:gravity="start"
             android:padding="8dp"
             android:text="@string/select_date"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:layout_weight="1"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -56,29 +61,33 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:weightSum="2"
+        android:layout_marginTop="20dp">
 
         <ImageView
             android:id="@+id/iv_selectTime"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_baseline_access_time_24" />
 
         <TextView
             android:id="@+id/tv_selectTime"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:gravity="center"
+            android:gravity="start"
             android:padding="8dp"
             android:text="@string/select_time"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
@@ -87,7 +96,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:hint="Description"
         android:textColor="@color/black" />
 

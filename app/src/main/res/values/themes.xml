@@ -22,4 +22,8 @@
     <style name="Theme.FoodTracker.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.FoodTracker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="DatePickerDialogTheme"
+        parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/teal_200</item>
+    </style>
 </resources>
