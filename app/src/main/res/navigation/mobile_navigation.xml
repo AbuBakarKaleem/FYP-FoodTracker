@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.app.foodtracker.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/toAddfood"
+            app:destination="@id/nav_Addfood" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.app.foodtracker.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.app.foodtracker.ui.history.FoodHistoryFragment"
+        android:label="@string/menu_history"
+        tools:layout="@layout/food_history_fragment" />
+    <fragment
+        android:id="@+id/nav_Addfood"
+        android:name="com.app.foodtracker.ui.addFood.AddFoodRecordFragment"
+        android:label="Add Food Record"
+        tools:layout="@layout/add_food_record_fragment" >
+        <argument
+            android:name="foodType"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.app.foodtracker.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+</navigation>
