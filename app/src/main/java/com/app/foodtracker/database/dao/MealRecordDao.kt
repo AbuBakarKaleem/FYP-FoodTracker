@@ -2,8 +2,7 @@ package com.app.foodtracker.database.dao
 
 import androidx.room.Insert
 import androidx.room.Query
-import com.app.foodtracker.database.Model.MealRecord
-import com.app.foodtracker.database.Model.User
+import com.app.foodtracker.database.model.MealRecord
 
 interface MealRecordDao {
 

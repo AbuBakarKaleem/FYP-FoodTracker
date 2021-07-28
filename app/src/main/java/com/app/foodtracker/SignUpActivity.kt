@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.app.foodtracker.Utils.Utils
+import com.app.foodtracker.database.model.User
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -16,6 +19,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var et_signUpPassword: EditText
     private lateinit var et_signUpAddress: EditText
     private lateinit var et_signUpPhoneNumber: EditText
+    private lateinit var authVieModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +40,8 @@ class SignUpActivity : AppCompatActivity() {
         et_signUpPassword = findViewById(R.id.et_signUpPassword)
         et_signUpAddress = findViewById(R.id.et_signUpAddress)
         et_signUpPhoneNumber = findViewById(R.id.et_signUpPhoneNumber)
+
+        authVieModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
     }
 
@@ -79,6 +85,18 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun registerUser() {
-        Utils.showToast(this@SignUpActivity, "Work in Progress")
+        var user = User(
+            et_signUpFirstName.text.toString().trim(),
+            et_signUpLastName.text.toString().trim(),
+            et_signUpEmail.text.toString().trim(),
+            et_signUpPassword.text.toString().trim(),
+            et_signUpAddress.text.toString().trim(),
+            et_signUpPhoneNumber.text.toString().trim()
+        )
+        /*authVieModel.liveDataLogin!!.observe(this@SignUpActivity, Observer {
+
+        })*/
     }
+
+
 }

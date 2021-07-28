@@ -1,4 +1,4 @@
-package com.app.foodtracker.database.Model
+package com.app.foodtracker.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,7 +7,6 @@ import com.app.foodtracker.Utils.Utils
 
 @Entity
 data class User(
-    @PrimaryKey(autoGenerate = true) var userID: Int ,
     @ColumnInfo(name = Utils.USER_COL_FIRST_NAME) val firstName: String?,
     @ColumnInfo(name = Utils.USER_COL_LAST_NAME) val lastName: String?,
     @ColumnInfo(name = Utils.USER_COL_EMAIL) val email: String?,

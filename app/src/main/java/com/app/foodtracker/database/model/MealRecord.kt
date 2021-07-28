@@ -1,4 +1,4 @@
-package com.app.foodtracker.database.Model
+package com.app.foodtracker.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
