@@ -8,6 +8,8 @@ import java.util.regex.Pattern
 class Utils {
     companion object {
 
+        const val DB_NAME="FoodTracker"
+
         const val USER_COL_FIRST_NAME = "first_name"
         const val USER_COL_LAST_NAME = "last_name"
         const val USER_COL_EMAIL = "email"

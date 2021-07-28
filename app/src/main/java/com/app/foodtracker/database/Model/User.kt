@@ -7,7 +7,7 @@ import com.app.foodtracker.Utils.Utils
 
 @Entity
 data class User(
-    @PrimaryKey val uid: Int,
+    @PrimaryKey(autoGenerate = true) var userID: Int ,
     @ColumnInfo(name = Utils.USER_COL_FIRST_NAME) val firstName: String?,
     @ColumnInfo(name = Utils.USER_COL_LAST_NAME) val lastName: String?,
     @ColumnInfo(name = Utils.USER_COL_EMAIL) val email: String?,
