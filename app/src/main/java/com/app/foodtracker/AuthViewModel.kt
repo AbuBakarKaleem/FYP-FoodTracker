@@ -10,12 +10,12 @@ class AuthViewModel : ViewModel() {
 
     var liveDataLogin: LiveData<User>? = null
 
-    fun registerUser(context: Context, user:User):String{
+    fun registerUser(context: Context, user:User):LiveData<String>{
         var isEmailExist=Repository.isEmailExist(context,user.email.toString())
         return if(isEmailExist.isNullOrEmpty().not())
-            Repository.registerUser(context, user).toString()
+            Repository.registerUser(context, user).toString() as LiveData<String>
         else
-            "User Already Exist"
+            "User Already Exist" as LiveData<String>
     }
 
     fun loginUser(context: Context,email:String,password:String):LiveData<User>{
