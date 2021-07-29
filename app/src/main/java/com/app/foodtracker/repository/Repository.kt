@@ -19,23 +19,19 @@ class Repository {
             return DatabaseInstance.getDatabaseClient(context)
         }
 
-        fun registerUser(context: Context, user:User) {
+        fun registerUser(context: Context, user:User):Long {
 
             databaseInstance = initializeDB(context)
-
-            CoroutineScope(Dispatchers.IO).launch {
-                //val loginDetails = LoginTableModel(username, password)
-                databaseInstance!!.accessDao().registerUser(user)
-            }
+            return databaseInstance!!.accessDao().registerUser(user)
 
         }
         fun loginUser(context: Context, email: String,password:String):LiveData<User>{
             databaseInstance = initializeDB(context)
             return databaseInstance!!.accessDao().loginUser(email,password)
         }
-        fun isEmailExist(context: Context,email:String):String{
+        fun isEmailExist(context: Context,email:String): LiveData<User> {
             databaseInstance = initializeDB(context)
-            return databaseInstance!!.accessDao().isEmailExist(email)
+            return this.databaseInstance!!.accessDao().isEmailExist(email)
         }
 
     }

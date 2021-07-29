@@ -8,7 +8,7 @@ import com.app.foodtracker.database.dao.AccessDao
 import com.app.foodtracker.database.model.MealRecord
 import com.app.foodtracker.database.model.User
 
-@Database(entities = [User::class, MealRecord::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, MealRecord::class], version = 1, exportSchema = true)
 abstract class DatabaseInstance: RoomDatabase() {
 
     abstract fun accessDao() : AccessDao
@@ -26,7 +26,7 @@ abstract class DatabaseInstance: RoomDatabase() {
 
                 INSTANCE = Room
                     .databaseBuilder(context, DatabaseInstance::class.java, "FOOD TRACKER")
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration().allowMainThreadQueries()
                     .build()
 
                 return INSTANCE!!

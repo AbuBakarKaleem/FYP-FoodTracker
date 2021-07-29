@@ -96,9 +96,14 @@ class SignUpActivity : AppCompatActivity() {
                 et_signUpAddress.text.toString().trim(),
                 et_signUpPhoneNumber.text.toString().trim()
             )
-            authViewModel.registerUser(this@SignUpActivity, user)!!.observe(this, Observer {
-                Utils.showToast(this@SignUpActivity, it.toString())
-            })
+            var insertedValue=authViewModel.registerUser(this@SignUpActivity, user)
+            if(insertedValue>0){
+                Utils.showToast(this@SignUpActivity, getString(R.string.user_register_successsfully))
+                onBackPressed()
+            }else{
+                Utils.showToast(this@SignUpActivity, getString(R.string.user_not_register))
+            }
+
         } catch (e: Exception) {
             Log.e("APP", e.message.toString())
         }
