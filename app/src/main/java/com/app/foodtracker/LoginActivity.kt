@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.app.foodtracker.Utils.Utils
 import com.app.foodtracker.database.model.User
+import com.app.foodtracker.session.SessionManager
 import java.lang.Exception
 
 class LoginActivity : AppCompatActivity() {
@@ -21,14 +22,18 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var et_loginEmail: EditText;
     private lateinit var et_loginPassword: EditText;
     private lateinit var authViewModel: AuthViewModel
+    private lateinit var session:SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         init()
     }
-
     private fun init() {
+
+        session= SessionManager(this@LoginActivity)
+        session.checkLogin()
+
         tv_registerUser = findViewById(R.id.tv_registerUser)
         et_loginEmail = findViewById(R.id.et_loginEmail)
         et_loginPassword = findViewById(R.id.et_loginPassword)
@@ -57,20 +62,29 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        var userInfo: User
         try {
-            authViewModel.loginUser(
-                this@LoginActivity,
+            var userInfo=authViewModel.loginUser(this@LoginActivity,
                 et_loginEmail.text.toString().trim(),
                 et_loginPassword.text.toString().trim()
+            )
+            if (userInfo.firstName.isNullOrEmpty().not()){
 
-            ).observe(this, Observer {
-                userInfo = it
-            })
-        } catch (e: Exception) {
-            Log.e("APP", e.message.toString())
+                onLoginSuccess(userInfo)
+            }else{
+                showToast("Login Fail")
+            }
+        }catch (e:Exception){
+            showToast(e.message.toString())
         }
-        /*startActivity(Intent(this@LoginActivity,HomeActivity::class.java))
-        finish()*/
+    }
+    private fun showToast(message:String){
+        Utils.showToast(this@LoginActivity,message)
+    }
+    private fun onLoginSuccess(userInfo: User){
+        session.createLoginSession(userInfo)
+
+        showToast("Login Successfully")
+        startActivity(Intent(this@LoginActivity,HomeActivity::class.java))
+        finish()
     }
 }

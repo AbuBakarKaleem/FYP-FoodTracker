@@ -18,12 +18,12 @@ interface AccessDao {
     fun isEmailExist(email:String):LiveData<User>
 
     @Query("SELECT * FROM Users WHERE email=:email AND password=:password")
-    fun loginUser(email:String,password:String):LiveData<User>
+    fun loginUser(email:String,password:String):User
 
-   /* @Insert
-    fun insertMealRecord(record: MealRecord):String
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertMealRecord(record: MealRecord):Long
 
-    @Query("SELECT * FROM MealRecord")
+   /* @Query("SELECT * FROM MealRecord")
     fun getAllMealRecords(): MealRecord*/
 
 

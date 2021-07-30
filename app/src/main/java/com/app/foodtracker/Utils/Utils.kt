@@ -3,6 +3,7 @@ package com.app.foodtracker.Utils
 import android.content.Context
 import android.util.Patterns
 import android.widget.Toast
+import com.app.foodtracker.database.model.User
 import java.util.regex.Pattern
 
 class Utils {
@@ -21,6 +22,13 @@ class Utils {
         const val MEAL_COL_DATE = "date"
         const val MEAL_COL_TIME = "time"
         const val MEAL_COL_DESCRIPTION = "description"
+
+        const val STR_BREAKFAST="Breakfast"
+        const val STR_LUNCH="Lunch"
+        const val STR_DINNER="Dinner"
+        const val STR_SNACKS="Snacks"
+
+        lateinit var userInfo:User
 
 
         val EMAIL_ADDRESS: Pattern = Pattern.compile(

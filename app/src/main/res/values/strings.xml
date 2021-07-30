@@ -32,5 +32,12 @@
     <string name="save">Save</string>
     <string name="user_register_successsfully">User Register Successfully</string>
     <string name="user_not_register">User Did Not Register </string>
+    <string name="user_already_register">Email already exist </string>
+    <string name="something_went_wrong">Something went wrong . Please try again </string>
+    <string name="select_meal">Selected Meal: </string>
+    <string name="meal_insert_message">Meal Information Saved Successfully</string>
+    <string name="meal_insert_fail_message">Meal Information Not Saved</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 
 </resources>

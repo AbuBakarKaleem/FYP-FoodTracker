@@ -88,7 +88,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun registerUser() {
 
         try {
-            var user = User(
+            val user = User(
                 et_signUpFirstName.text.toString().trim(),
                 et_signUpLastName.text.toString().trim(),
                 et_signUpEmail.text.toString().trim(),
@@ -96,18 +96,25 @@ class SignUpActivity : AppCompatActivity() {
                 et_signUpAddress.text.toString().trim(),
                 et_signUpPhoneNumber.text.toString().trim()
             )
-            var insertedValue=authViewModel.registerUser(this@SignUpActivity, user)
+            val insertedValue=authViewModel.registerUser(this@SignUpActivity, user)
             if(insertedValue>0){
-                Utils.showToast(this@SignUpActivity, getString(R.string.user_register_successsfully))
+                showToast(getString(R.string.user_register_successsfully))
                 onBackPressed()
+            }
+            else if(insertedValue<0){
+                showToast(getString(R.string.user_already_register))
             }else{
-                Utils.showToast(this@SignUpActivity, getString(R.string.user_not_register))
+                showToast(getString(R.string.user_not_register))
             }
 
         } catch (e: Exception) {
             Log.e("APP", e.message.toString())
+            showToast(getString(R.string.something_went_wrong))
         }
 
+    }
+    private fun showToast(message:String){
+        Utils.showToast(this@SignUpActivity,message)
     }
 
 

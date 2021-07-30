@@ -3,6 +3,7 @@ package com.app.foodtracker.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.app.foodtracker.database.DatabaseInstance
+import com.app.foodtracker.database.model.MealRecord
 import com.app.foodtracker.database.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,13 +26,17 @@ class Repository {
             return databaseInstance!!.accessDao().registerUser(user)
 
         }
-        fun loginUser(context: Context, email: String,password:String):LiveData<User>{
+        fun loginUser(context: Context, email: String,password:String):User{
             databaseInstance = initializeDB(context)
             return databaseInstance!!.accessDao().loginUser(email,password)
         }
         fun isEmailExist(context: Context,email:String): LiveData<User> {
             databaseInstance = initializeDB(context)
             return this.databaseInstance!!.accessDao().isEmailExist(email)
+        }
+        fun insertMealRecord(context: Context, mealRecord: MealRecord):Long{
+            databaseInstance = initializeDB(context)
+            return this.databaseInstance!!.accessDao().insertMealRecord(mealRecord)
         }
 
     }

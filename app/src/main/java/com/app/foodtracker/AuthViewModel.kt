@@ -13,7 +13,7 @@ class AuthViewModel : ViewModel() {
         return Repository.registerUser(context, user)
     }
 
-    fun loginUser(context: Context,email:String,password:String):LiveData<User>{
+    fun loginUser(context: Context,email:String,password:String):User{
         return Repository.loginUser(context,email,password)
     }
 

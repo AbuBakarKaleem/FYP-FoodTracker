@@ -1,8 +1,10 @@
 package com.app.foodtracker.ui.addFood
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +16,11 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.app.foodtracker.R
 import com.app.foodtracker.Utils.Utils
+import com.app.foodtracker.database.model.MealRecord
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,6 +39,7 @@ class AddFoodRecordFragment : Fragment() {
     private lateinit var iv_selectTime: ImageView
     private lateinit var et_description: EditText
     private lateinit var btn_save: AppCompatButton
+    private lateinit var foodType: String
 
     private val dateSelected: Calendar = Calendar.getInstance()
     private var datePickerDialog: DatePickerDialog? = null
@@ -83,45 +88,47 @@ class AddFoodRecordFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setMealTypeOnUI() {
 
         when (navArgs.foodType) {
             0 -> {
-                tv_selectedMealType.text = "Selected Meal: Breakfast"
+                foodType = Utils.STR_BREAKFAST
             }
             1 -> {
-                tv_selectedMealType.text = "Selected Meal: Lunch"
+                foodType = Utils.STR_LUNCH
             }
             2 -> {
-                tv_selectedMealType.text = "Selected Meal: Dinner"
+                foodType = Utils.STR_DINNER
             }
             3 -> {
-                tv_selectedMealType.text = "Selected Meal: Snacks"
+                foodType = Utils.STR_SNACKS
             }
             else -> {
-                tv_selectedMealType.text = ""
+                foodType = ""
             }
         }
+        tv_selectedMealType.text = getString(R.string.select_meal) + foodType
     }
 
     private fun validation() {
-        if(tv_selectedMealType.text.isEmpty()){
-            Utils.showToast(rootView.context,"Meal Type is Required")
+        if (tv_selectedMealType.text.isEmpty()) {
+            Utils.showToast(rootView.context, "Meal Type is Required")
             return
 
         }
-        if(tv_selectDate.text.toString().contentEquals(getString(R.string.select_date))){
-            Utils.showToast(rootView.context,"please select date")
+        if (tv_selectDate.text.toString().contentEquals(getString(R.string.select_date))) {
+            Utils.showToast(rootView.context, "please select date")
             return
 
         }
-        if(tv_selectTime.text.toString().contentEquals(getString(R.string.select_time))){
-            Utils.showToast(rootView.context,"please select time")
+        if (tv_selectTime.text.toString().contentEquals(getString(R.string.select_time))) {
+            Utils.showToast(rootView.context, "please select time")
             return
 
         }
-        if(et_description.text.isEmpty()){
-           et_description.error=getString(R.string.required)
+        if (et_description.text.isEmpty()) {
+            et_description.error = getString(R.string.required)
             return
 
         }
@@ -130,8 +137,27 @@ class AddFoodRecordFragment : Fragment() {
     }
 
     private fun saveMealInfoIntoDatabase() {
+        try {
+            val mealRecord = MealRecord(
+                foodType.trim(),
+                tv_selectDate.text.toString().trim(),
+                tv_selectTime.text.toString().trim(),
+                et_description.text.toString().trim()
+            )
+            val recordInsertStatus = viewModel.insertMealRecord(rootView.context, mealRecord)
+            if (recordInsertStatus > 0) {
+                showToast(getString(R.string.meal_insert_message))
+                findNavController().navigateUp()
+            } else {
+                showToast(getString(R.string.meal_insert_fail_message))
+            }
 
+        } catch (e: Exception) {
+            Log.e("App", e.message.toString())
+            Utils.showToast(rootView.context, getString(R.string.something_went_wrong))
+        }
     }
+
     private fun showCalender() {
 
         val newCalendar = Calendar.getInstance()
@@ -178,6 +204,10 @@ class AddFoodRecordFragment : Fragment() {
             .setTextColor(ContextCompat.getColor(rootView.context, R.color.teal_200))
         mTimePicker.getButton(TimePickerDialog.BUTTON_NEGATIVE)
             .setTextColor(ContextCompat.getColor(rootView.context, R.color.teal_700))
+    }
+
+    private fun showToast(message: String) {
+        Utils.showToast(rootView.context, message)
     }
 
 }

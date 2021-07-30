@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.app.foodtracker.R
 import com.app.foodtracker.Utils.Utils
+import com.app.foodtracker.session.SessionManager
 import com.app.foodtracker.ui.addFood.AddFoodRecordFragment
 
 class HomeFragment : Fragment() {
@@ -23,6 +24,7 @@ class HomeFragment : Fragment() {
     private lateinit var cv_snacks:CardView
     private lateinit var cv_lunch:CardView
     private lateinit var cv_dinner:CardView
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,12 +45,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-       /* textView.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.toAddfood(1))
-        }*/
-
-
-
+        sessionManager=SessionManager(rootView.context)
     }
     private fun init(){
 
