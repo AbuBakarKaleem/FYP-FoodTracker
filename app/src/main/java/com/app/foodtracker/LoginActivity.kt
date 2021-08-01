@@ -22,16 +22,17 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var et_loginEmail: EditText;
     private lateinit var et_loginPassword: EditText;
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var session:SessionManager
+    private lateinit var session: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         init()
     }
+
     private fun init() {
 
-        session= SessionManager(this@LoginActivity)
+        session = SessionManager(this@LoginActivity)
         session.checkLogin()
 
         tv_registerUser = findViewById(R.id.tv_registerUser)
@@ -63,28 +64,30 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login() {
         try {
-            var userInfo=authViewModel.loginUser(this@LoginActivity,
+            var userInfo = authViewModel.loginUser(
+                this@LoginActivity,
                 et_loginEmail.text.toString().trim(),
                 et_loginPassword.text.toString().trim()
             )
-            if (userInfo.firstName.isNullOrEmpty().not()){
+            if (userInfo.firstName.isNullOrEmpty().not()) {
 
                 onLoginSuccess(userInfo)
-            }else{
+            } else {
                 showToast("Login Fail")
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             showToast(e.message.toString())
         }
     }
-    private fun showToast(message:String){
-        Utils.showToast(this@LoginActivity,message)
-    }
-    private fun onLoginSuccess(userInfo: User){
-        session.createLoginSession(userInfo)
 
+    private fun showToast(message: String) {
+        Utils.showToast(this@LoginActivity, message)
+    }
+
+    private fun onLoginSuccess(userInfo: User) {
+        session.createLoginSession(userInfo)
         showToast("Login Successfully")
-        startActivity(Intent(this@LoginActivity,HomeActivity::class.java))
-        finish()
+        startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+        finishAffinity()
     }
 }

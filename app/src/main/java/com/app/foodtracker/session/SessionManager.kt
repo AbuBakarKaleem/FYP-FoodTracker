@@ -10,8 +10,6 @@ import com.app.foodtracker.LoginActivity
 import com.app.foodtracker.database.model.User
 import com.google.gson.Gson
 
-
-@SuppressLint("CommitPrefEdits")
 class SessionManager(context: Context) {
 
     var pref: SharedPreferences? = null
@@ -46,7 +44,7 @@ class SessionManager(context: Context) {
         return pref?.getString(KEY_USER, null)?.let { stringToObject(it) }
     }
     public fun checkLogin(){
-        if (!this.isLoggedIn()) {
+        if (this.isLoggedIn()) {
 
             val i = Intent(_context, HomeActivity::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -72,5 +70,6 @@ class SessionManager(context: Context) {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         _context!!.startActivity(i)
+
     }
 }

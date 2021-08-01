@@ -1,6 +1,7 @@
 package com.app.foodtracker.database.dao
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -23,8 +24,8 @@ interface AccessDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertMealRecord(record: MealRecord):Long
 
-   /* @Query("SELECT * FROM MealRecord")
-    fun getAllMealRecords(): MealRecord*/
+    @Query("SELECT * FROM MealRecord")
+    fun getAllMealRecords(): List<MealRecord>
 
 
 

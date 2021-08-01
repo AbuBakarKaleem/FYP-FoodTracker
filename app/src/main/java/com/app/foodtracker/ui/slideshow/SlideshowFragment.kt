@@ -54,8 +54,7 @@ class SlideshowFragment : Fragment() {
         btn_logOut.setOnClickListener {
 
             sessionManager.logoutUser()
-            /*rootView.context.startActivity(Intent( rootView.context,LoginActivity::class.java))
-            activity?.finish()*/
+            activity?.finish()
         }
     }
 }

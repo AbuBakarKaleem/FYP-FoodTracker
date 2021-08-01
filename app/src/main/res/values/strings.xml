@@ -39,5 +39,7 @@
     <string name="meal_insert_fail_message">Meal Information Not Saved</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="no_data_found">No Data Found!!</string>
+    <string name="share">Share</string>
 
 </resources>

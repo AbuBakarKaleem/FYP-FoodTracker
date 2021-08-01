@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.app.foodtracker.Utils.Utils
 
-@Entity
+@Entity(tableName = "MealRecord")
 data class MealRecord(
     @ColumnInfo(name = Utils.MEAL_COL_TYPE) val mealType: String?,
     @ColumnInfo(name = Utils.MEAL_COL_DATE) val mealDate: String?,
