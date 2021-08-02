@@ -28,7 +28,9 @@ class Utils {
         const val STR_DINNER="Dinner"
         const val STR_SNACKS="Snacks"
 
-        lateinit var userInfo:User
+         var loggedInUserName=""
+         var loggedInUserEmail=""
+
 
 
         val EMAIL_ADDRESS: Pattern = Pattern.compile(
