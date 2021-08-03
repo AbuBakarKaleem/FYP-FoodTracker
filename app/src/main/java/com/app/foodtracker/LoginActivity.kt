@@ -69,11 +69,10 @@ class LoginActivity : AppCompatActivity() {
                 et_loginEmail.text.toString().trim(),
                 et_loginPassword.text.toString().trim()
             )
-            if (userInfo.firstName.isNullOrEmpty().not()) {
-
-                onLoginSuccess(userInfo)
+            if (userInfo==null) {
+                showToast("User not Exist")
             } else {
-                showToast("Login Fail")
+                onLoginSuccess(userInfo)
             }
         } catch (e: Exception) {
             showToast(e.message.toString())
@@ -85,6 +84,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onLoginSuccess(userInfo: User) {
+        Utils.loggedInUserEmail=userInfo.email
+        Utils.loggedInUserName=userInfo.firstName+" "+ userInfo.lastName
         session.createLoginSession(userInfo)
         showToast("Login Successfully")
         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))

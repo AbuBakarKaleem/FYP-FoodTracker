@@ -21,6 +21,7 @@ import androidx.navigation.fragment.navArgs
 import com.app.foodtracker.R
 import com.app.foodtracker.Utils.Utils
 import com.app.foodtracker.database.model.MealRecord
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -78,13 +79,14 @@ class AddFoodRecordFragment : Fragment() {
 
         btn_save.setOnClickListener { validation() }
 
-        ll_selectDate.setOnClickListener { showCalender() }
+       /* ll_selectDate.setOnClickListener { showCalender() }
         tv_selectDate.setOnClickListener { showCalender() }
 
         ll_selectTime.setOnClickListener { showClock() }
         tv_selectTime.setOnClickListener { showClock() }
-
+*/
         setMealTypeOnUI()
+        setDateAndTimeToUI()
 
     }
 
@@ -109,6 +111,12 @@ class AddFoodRecordFragment : Fragment() {
             }
         }
         tv_selectedMealType.text = getString(R.string.select_meal) + foodType
+    }
+    @SuppressLint("SetTextI18n")
+    private fun setDateAndTimeToUI(){
+        val dateTime=getCurrentDateTime()
+        tv_selectDate.text=dateTime.split(" ")[0]
+        tv_selectTime.text=dateTime.split(" ")[1]+" "+dateTime.split(" ")[2]
     }
 
     private fun validation() {
@@ -208,6 +216,19 @@ class AddFoodRecordFragment : Fragment() {
 
     private fun showToast(message: String) {
         Utils.showToast(rootView.context, message)
+    }
+
+    private fun getCurrentDateTime(): String {
+        var currentDateTime = ""
+        try {
+            val df: DateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss a")
+            currentDateTime = df.format(Calendar.getInstance().time)
+            Log.e("App", "Current date =========>>$currentDateTime")
+        } catch (e: Exception) {
+            Log.e("App", e.message.toString())
+        }
+        return currentDateTime
+
     }
 
 }
