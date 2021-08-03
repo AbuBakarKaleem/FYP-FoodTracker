@@ -2,6 +2,8 @@ package com.app.foodtracker.ui.history
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.foodtracker.R
 import com.app.foodtracker.adapters.MealHistoryRecyclerViewAdapter
 import com.app.foodtracker.database.model.MealRecord
+import com.opencsv.CSVWriter
+import java.io.FileWriter
 
 class FoodHistoryFragment : Fragment() {
 
@@ -22,6 +26,7 @@ class FoodHistoryFragment : Fragment() {
     private lateinit var rc_mealHistory:RecyclerView
     private lateinit var viewModel: FoodHistoryViewModel
     private lateinit var rootView:View
+    private lateinit var historyList:ArrayList<MealRecord>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +44,9 @@ class FoodHistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
 
-        var recordList=viewModel.getMealRecords(rootView.context) as ArrayList<MealRecord>
-        if(recordList.size>0){
-            populateRecyclerView(recordList)
+         historyList=viewModel.getMealRecords(rootView.context) as ArrayList<MealRecord>
+        if(historyList.size>0){
+            populateRecyclerView(historyList)
 
         }else{
             hideShareButtonAndRecyclerView()
@@ -52,6 +57,10 @@ class FoodHistoryFragment : Fragment() {
         btn_share=rootView.findViewById(R.id.btn_share)
         tv_noDataFound=rootView.findViewById(R.id.tv_noDataFound)
         rc_mealHistory=rootView.findViewById(R.id.rc_mealHistory)
+
+        btn_share.setOnClickListener {
+            listToCSV()
+        }
     }
     private fun hideShareButtonAndRecyclerView(){
         btn_share.visibility=View.GONE
@@ -83,6 +92,22 @@ class FoodHistoryFragment : Fragment() {
         val mealListAdapter=MealHistoryRecyclerViewAdapter(recordList)
         rc_mealHistory.adapter=mealListAdapter
 
+    }
+    private fun listToCSV(){
+        try{
+            if(historyList.size>0){
+                val csv: String =
+                    Environment.getExternalStorageDirectory().absolutePath
+                        .toString() + "/FoodHistory.csv" // Here csv file name is MyCsvFile.csv
+                var writer = CSVWriter( FileWriter(csv))
+                writer.writeAll(historyList as MutableList<Array<String>>); // data is adding to csv
+
+                writer.close();
+            }
+
+        }catch (e: Exception){
+            Log.e("App", e.message.toString())
+        }
     }
 
 }
