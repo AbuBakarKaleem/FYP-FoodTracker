@@ -80,6 +80,10 @@ class SignUpActivity : AppCompatActivity() {
             et_signUpPhoneNumber.error = getString(R.string.required)
             return
         }
+        if (et_signUpPhoneNumber.text.length<11) {
+            et_signUpPhoneNumber.error = getString(R.string.invalidPhone)
+            return
+        }
 
         registerUser()
 

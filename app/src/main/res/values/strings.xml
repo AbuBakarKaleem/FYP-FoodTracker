@@ -41,5 +41,6 @@
     <string name="yes">Yes</string>
     <string name="no_data_found">No Data Found!!</string>
     <string name="share">Share</string>
+    <string name="invalidPhone">Invalid Phone Number</string>
 
 </resources>
