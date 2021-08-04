@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                 et_loginPassword.text.toString().trim()
             )
             if (userInfo==null) {
-                showToast("User not Exist")
+                showToast(getString(R.string.invalidEmailOrPassword))
             } else {
                 onLoginSuccess(userInfo)
             }
