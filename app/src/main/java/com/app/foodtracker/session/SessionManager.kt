@@ -23,6 +23,10 @@ class SessionManager(context: Context) {
     // Shared pref mode
     var PRIVATE_MODE = 0
     val KEY_USER = "user_info"
+    val KEY_LAST_BREAKFAST="last_breakfast"
+    val KEY_LAST_LUNCH="last_lunch"
+    val KEY_LAST_DINNER="last_dinner"
+    val KEY_LAST_SNACKES="last_snacks"
 
     private val PREF_NAME = "FoodTracker Preference"
 
@@ -38,10 +42,26 @@ class SessionManager(context: Context) {
     fun createLoginSession(userInfo: User) {
         editor!!.putBoolean(IS_LOGIN, true)
         editor!!.putString(KEY_USER, objectToString(userInfo))
+        editor!!.putString(KEY_LAST_BREAKFAST, "")
+        editor!!.putString(KEY_LAST_LUNCH, "")
+        editor!!.putString(KEY_LAST_DINNER, "")
+        editor!!.putString(KEY_LAST_SNACKES, "")
         editor!!.commit()
     }
     fun getUserDetails():User?{
         return pref?.getString(KEY_USER, null)?.let { stringToObject(it) }
+    }
+    fun getLastBreakFast():String?{
+       return pref?.getString(KEY_LAST_BREAKFAST, null)
+    }
+    fun getLastLunch():String?{
+       return pref?.getString(KEY_LAST_LUNCH, null)
+    } 
+    fun getLastDinner():String?{
+       return pref?.getString(KEY_LAST_DINNER, null)
+    }
+    fun getLastSnacks():String?{
+       return pref?.getString(KEY_LAST_SNACKES, null)
     }
     public fun checkLogin(){
         if (this.isLoggedIn()) {

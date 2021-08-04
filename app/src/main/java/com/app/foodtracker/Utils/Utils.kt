@@ -28,11 +28,6 @@ class Utils {
         const val STR_DINNER="Dinner"
         const val STR_SNACKS="Snacks"
 
-         var loggedInUserName=""
-         var loggedInUserEmail=""
-
-
-
         val EMAIL_ADDRESS: Pattern = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +

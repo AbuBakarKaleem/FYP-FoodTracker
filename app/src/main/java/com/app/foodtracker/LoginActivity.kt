@@ -84,8 +84,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onLoginSuccess(userInfo: User) {
-        Utils.loggedInUserEmail=userInfo.email
-        Utils.loggedInUserName=userInfo.firstName+" "+ userInfo.lastName
         session.createLoginSession(userInfo)
         showToast("Login Successfully")
         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
