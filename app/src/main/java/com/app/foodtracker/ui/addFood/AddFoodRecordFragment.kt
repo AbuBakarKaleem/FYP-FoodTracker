@@ -21,9 +21,11 @@ import androidx.navigation.fragment.navArgs
 import com.app.foodtracker.R
 import com.app.foodtracker.Utils.Utils
 import com.app.foodtracker.database.model.MealRecord
+import com.app.foodtracker.session.SessionManager
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.schedule
 
 
 class AddFoodRecordFragment : Fragment() {
@@ -34,6 +36,7 @@ class AddFoodRecordFragment : Fragment() {
     private lateinit var tv_selectedMealType: TextView
     private lateinit var tv_selectDate: TextView
     private lateinit var tv_selectTime: TextView
+    private lateinit var tv_lastMealTaken: TextView
     private lateinit var ll_selectDate: LinearLayout
     private lateinit var ll_selectTime: LinearLayout
     private lateinit var iv_selectDate: ImageView
@@ -74,17 +77,18 @@ class AddFoodRecordFragment : Fragment() {
         ll_selectTime = rootView.findViewById(R.id.ll_selectTime)
         iv_selectDate = rootView.findViewById(R.id.iv_selectDate)
         iv_selectTime = rootView.findViewById(R.id.iv_selectTime)
+        tv_lastMealTaken = rootView.findViewById(R.id.tv_lastMealTaken)
         et_description = rootView.findViewById(R.id.et_description)
         btn_save = rootView.findViewById(R.id.btn_save)
 
         btn_save.setOnClickListener { validation() }
 
-       /* ll_selectDate.setOnClickListener { showCalender() }
-        tv_selectDate.setOnClickListener { showCalender() }
+        /* ll_selectDate.setOnClickListener { showCalender() }
+         tv_selectDate.setOnClickListener { showCalender() }
 
-        ll_selectTime.setOnClickListener { showClock() }
-        tv_selectTime.setOnClickListener { showClock() }
-*/
+         ll_selectTime.setOnClickListener { showClock() }
+         tv_selectTime.setOnClickListener { showClock() }
+ */
         setMealTypeOnUI()
         setDateAndTimeToUI()
 
@@ -92,16 +96,36 @@ class AddFoodRecordFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setMealTypeOnUI() {
+        val sessionManager = SessionManager(rootView.context)
 
         when (navArgs.foodType) {
             0 -> {
                 foodType = Utils.STR_BREAKFAST
+                val isBreakfastTaken = sessionManager.getLastBreakFast()
+                if (isBreakfastTaken.isNullOrEmpty().not() && isBreakfastTaken.equals(
+                        getCurrentDateTime().split(" ")[0]
+                    )
+                ) {
+                    hideAddRecordButton(foodType)
+                }
             }
             1 -> {
                 foodType = Utils.STR_LUNCH
+                val isLunchTaken = sessionManager.getLastLunch()
+                if (isLunchTaken.isNullOrEmpty()
+                        .not() && isLunchTaken.equals(getCurrentDateTime().split(" ")[0])
+                ) {
+                    hideAddRecordButton(foodType)
+                }
             }
             2 -> {
                 foodType = Utils.STR_DINNER
+                val isDinnerTaken = sessionManager.getLastDinner()
+                if (isDinnerTaken.isNullOrEmpty()
+                        .not() && isDinnerTaken.equals(getCurrentDateTime().split(" ")[0])
+                ) {
+                    hideAddRecordButton(foodType)
+                }
             }
             3 -> {
                 foodType = Utils.STR_SNACKS
@@ -112,11 +136,34 @@ class AddFoodRecordFragment : Fragment() {
         }
         tv_selectedMealType.text = getString(R.string.select_meal) + foodType
     }
+
+    private fun setMealTakenValue(value: String) {
+        try {
+            val sessionManager = SessionManager(rootView.context)
+            when (value) {
+                Utils.STR_BREAKFAST -> {
+                    sessionManager.setLastBreakfast(getCurrentDateTime().split(" ")[0])
+                }
+                Utils.STR_LUNCH -> {
+                    sessionManager.setLastLunch(getCurrentDateTime().split(" ")[0])
+                }
+                Utils.STR_DINNER -> {
+                    sessionManager.setLastDinner(getCurrentDateTime().split(" ")[0])
+                }
+                else -> {
+                    return
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e("App", e.message.toString())
+        }
+    }
+
     @SuppressLint("SetTextI18n")
-    private fun setDateAndTimeToUI(){
-        val dateTime=getCurrentDateTime()
-        tv_selectDate.text=dateTime.split(" ")[0]
-        tv_selectTime.text=dateTime.split(" ")[1]+" "+dateTime.split(" ")[2]
+    private fun setDateAndTimeToUI() {
+        val dateTime = getCurrentDateTime()
+        tv_selectDate.text = dateTime.split(" ")[0]
+        tv_selectTime.text = dateTime.split(" ")[1] + " " + dateTime.split(" ")[2]
     }
 
     private fun validation() {
@@ -155,7 +202,9 @@ class AddFoodRecordFragment : Fragment() {
             val recordInsertStatus = viewModel.insertMealRecord(rootView.context, mealRecord)
             if (recordInsertStatus > 0) {
                 showToast(getString(R.string.meal_insert_message))
-                findNavController().navigateUp()
+                setMealTakenValue(foodType.trim())
+                goBack()
+
             } else {
                 showToast(getString(R.string.meal_insert_fail_message))
             }
@@ -164,6 +213,10 @@ class AddFoodRecordFragment : Fragment() {
             Log.e("App", e.message.toString())
             Utils.showToast(rootView.context, getString(R.string.something_went_wrong))
         }
+    }
+
+    private fun goBack() {
+        findNavController().navigateUp()
     }
 
     private fun showCalender() {
@@ -229,6 +282,13 @@ class AddFoodRecordFragment : Fragment() {
         }
         return currentDateTime
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun hideAddRecordButton(value: String) {
+        tv_lastMealTaken.text = "Today's $foodType is already done"
+        btn_save.visibility = View.GONE
+        tv_lastMealTaken.visibility = View.VISIBLE
     }
 
 }

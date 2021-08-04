@@ -60,6 +60,18 @@ class SessionManager(context: Context) {
     fun getLastDinner():String?{
        return pref?.getString(KEY_LAST_DINNER, null)
     }
+    fun setLastBreakfast(value:String){
+        editor?.putString(KEY_LAST_BREAKFAST,value)
+        editor!!.commit()
+    }
+    fun setLastLunch(value:String){
+        editor?.putString(KEY_LAST_LUNCH,value)
+        editor!!.commit()
+    }
+    fun setLastDinner(value:String){
+        editor?.putString(KEY_LAST_DINNER,value)
+        editor!!.commit()
+    }
     fun getLastSnacks():String?{
        return pref?.getString(KEY_LAST_SNACKES, null)
     }
