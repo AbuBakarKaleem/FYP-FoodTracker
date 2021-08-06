@@ -2,14 +2,12 @@ package com.app.foodtracker.ui.history
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.FileProvider
@@ -19,10 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.foodtracker.R
 import com.app.foodtracker.Utils.Utils
-import com.app.foodtracker.`interface`.HistoryItemClickListener
 import com.app.foodtracker.adapters.MealHistoryRecyclerViewAdapter
 import com.app.foodtracker.database.model.MealRecord
 import com.app.foodtracker.session.SessionManager
+import com.app.foodtracker.ui.home.HistoryItemClickListener
 import com.opencsv.CSVWriter
 import java.io.File
 import java.io.FileWriter
@@ -198,8 +196,7 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
         }
     }
 
-    override fun onItemClickListener(mealRecord: MealRecord) {
-        Utils.showToast(rootView.context,"Clicked")
-    }
+    override fun onItemClickListener(mealRecord: MealRecord?) {
 
+    }
 }

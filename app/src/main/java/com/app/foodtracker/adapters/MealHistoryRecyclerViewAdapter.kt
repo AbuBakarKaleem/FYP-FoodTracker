@@ -1,21 +1,17 @@
 package com.app.foodtracker.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.app.foodtracker.R
-import com.app.foodtracker.`interface`.HistoryItemClickListener
 import com.app.foodtracker.database.model.MealRecord
+import com.app.foodtracker.ui.home.HistoryItemClickListener
 import java.util.ArrayList
 
 class MealHistoryRecyclerViewAdapter(mealRecordList: ArrayList<MealRecord>,listener:HistoryItemClickListener) :
