@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.foodtracker.R
 import com.app.foodtracker.Utils.Utils
+import com.app.foodtracker.`interface`.HistoryItemClickListener
 import com.app.foodtracker.adapters.MealHistoryRecyclerViewAdapter
 import com.app.foodtracker.database.model.MealRecord
 import com.app.foodtracker.session.SessionManager
@@ -29,7 +30,7 @@ import java.util.*
 import kotlin.concurrent.schedule
 
 
-class FoodHistoryFragment : Fragment() {
+class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
 
     private lateinit var tv_noDataFound: AppCompatTextView
     private lateinit var btn_share: AppCompatButton
@@ -95,7 +96,7 @@ class FoodHistoryFragment : Fragment() {
         rc_mealHistory.layoutManager = manager
         rc_mealHistory.setHasFixedSize(true)
 
-        val mealListAdapter = MealHistoryRecyclerViewAdapter(recordList)
+        val mealListAdapter = MealHistoryRecyclerViewAdapter(recordList,this)
         rc_mealHistory.adapter = mealListAdapter
 
     }
@@ -195,6 +196,10 @@ class FoodHistoryFragment : Fragment() {
         Timer().schedule(1500) {
             progressDialog.dismiss()
         }
+    }
+
+    override fun onItemClickListener(mealRecord: MealRecord) {
+        Utils.showToast(rootView.context,"Clicked")
     }
 
 }
