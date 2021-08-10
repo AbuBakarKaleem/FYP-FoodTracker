@@ -25,17 +25,17 @@ import com.opencsv.CSVWriter
 import java.io.File
 import java.io.FileWriter
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
 
 
-class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
+class FoodHistoryFragment : Fragment(), HistoryItemClickListener {
 
     private lateinit var tv_noDataFound: AppCompatTextView
     private lateinit var btn_share: AppCompatButton
     private lateinit var rc_mealHistory: RecyclerView
     private lateinit var viewModel: FoodHistoryViewModel
     private lateinit var rootView: View
-    private lateinit var historyList: ArrayList<MealRecord>
     private lateinit var progressDialog: ProgressDialog
 
     override fun onCreateView(
@@ -54,7 +54,7 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         init()
 
-        historyList = viewModel.getMealRecords(rootView.context) as ArrayList<MealRecord>
+        val historyList = viewModel.getMealRecords(rootView.context) as ArrayList<MealRecord>
         if (historyList.size > 0) {
             populateRecyclerView(historyList)
 
@@ -72,7 +72,6 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
         progressDialog.setMessage("Prcessing..");
         btn_share.setOnClickListener {
             progressDialog.show()
-            listToCSV()
         }
     }
 
@@ -94,12 +93,12 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
         rc_mealHistory.layoutManager = manager
         rc_mealHistory.setHasFixedSize(true)
 
-        val mealListAdapter = MealHistoryRecyclerViewAdapter(recordList,this)
+        val mealListAdapter = MealHistoryRecyclerViewAdapter(recordList, this)
         rc_mealHistory.adapter = mealListAdapter
 
     }
 
-    private fun listToCSV() {
+    private fun listToCSV(historyList: ArrayList<MealRecord>) {
         try {
             if (historyList.size > 0) {
                 val csvFilePath: String =
@@ -125,8 +124,7 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
 
         } catch (e: Exception) {
             Log.e("App", e.message.toString())
-        }
-        finally {
+        } finally {
             hideProdressBar()
         }
     }
@@ -135,12 +133,13 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
         try {
             val fileWithinMyDir: File = File(createdFilePath)
             if (fileWithinMyDir.exists()) {
-                val sessionManager=SessionManager(rootView.context)
+                val sessionManager = SessionManager(rootView.context)
                 val intentShareFile = Intent(Intent.ACTION_SEND)
 
-                var uriProvider= FileProvider.
-                getUriForFile(rootView.context, rootView.context.applicationContext.packageName + ".provider",
-                    fileWithinMyDir)
+                var uriProvider = FileProvider.getUriForFile(
+                    rootView.context, rootView.context.applicationContext.packageName + ".provider",
+                    fileWithinMyDir
+                )
 
                 intentShareFile.type = "application/csv"
                 intentShareFile.putExtra(Intent.EXTRA_STREAM, uriProvider)
@@ -148,13 +147,13 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
                     Intent.EXTRA_SUBJECT,
                     "Sharing File..."
                 )
-                val emailBody="Food History of "+ sessionManager.getUserDetails()?.firstName+ " "+ sessionManager.getUserDetails()?.lastName
+                val emailBody =
+                    "Food History of " + sessionManager.getUserDetails()?.firstName + " " + sessionManager.getUserDetails()?.lastName
                 intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intentShareFile.putExtra(Intent.EXTRA_TEXT,emailBody )
+                intentShareFile.putExtra(Intent.EXTRA_TEXT, emailBody)
                 startActivity(Intent.createChooser(intentShareFile, "Share File"))
-            }
-            else{
-                Utils.showToast(rootView.context,"File not Exist")
+            } else {
+                Utils.showToast(rootView.context, "File not Exist")
             }
         } catch (e: Exception) {
             Log.e("App", e.message.toString())
@@ -162,6 +161,7 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
             hideProdressBar()
         }
     }
+
     /*private fun listToCSV(){
         val filename = "FoodHistory.csv"
         val directoryDownload: File =
@@ -190,13 +190,23 @@ class FoodHistoryFragment : Fragment(),HistoryItemClickListener {
             progressDialog.dismiss()
         }
     }*/
-    private fun hideProdressBar(){
+    private fun hideProdressBar() {
         Timer().schedule(1500) {
             progressDialog.dismiss()
         }
     }
 
     override fun onItemClickListener(mealRecord: MealRecord?) {
-
+        try {
+            if (mealRecord != null) {
+                var historyList = ArrayList<MealRecord>()
+                historyList.add(mealRecord)
+                listToCSV(historyList)
+            }else{
+                Utils.showToast(rootView.context,getString(R.string.something_went_wrong))
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e("App", e.message.toString())
+        }
     }
 }
